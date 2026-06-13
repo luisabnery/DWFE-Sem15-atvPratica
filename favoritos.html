@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Favoritos - Mini Ecommerce</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="./assets/js/login.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>🛒 Mini Ecommerce</h1>
+    <div id="login-area" class="login-area">
+      <a href="/modulos/login/index.html" class="login-link">Entrar</a>
+    </div>
+  </header>
+
+  <nav class="nav-links">
+    <a href="index.html">🏠 Início</a>
+    <a href="favoritos.html" class="active">❤️ Meus Favoritos</a>
+  </nav>
+
+  <div class="favoritos-header">
+    <h2>❤️ Meus Favoritos</h2>
+    <p id="favoritos-subtitulo" class="favoritos-subtitulo"></p>
+  </div>
+
+  <div id="favoritos-lista"></div>
+
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Aguarda o login.js inicializar (DOMContentLoaded pode disparar junto)
+      setTimeout(renderizarFavoritos, 100);
+    });
+
+    function renderizarFavoritos() {
+      const usuario = getUsuarioCorrente();
+      const lista = document.getElementById("favoritos-lista");
+      const subtitulo = document.getElementById("favoritos-subtitulo");
+
+      if (!usuario) {
+        lista.innerHTML = `
+          <div class="favoritos-vazio">
+            <p>🔒 Você precisa estar logado para ver seus favoritos.</p>
+            <a href="/modulos/login/index.html" class="btn-login-link">Fazer Login</a>
+          </div>`;
+        return;
+      }
+
+      const chave = `favoritos_${usuario.id}`;
+      const ids = JSON.parse(localStorage.getItem(chave) || "[]");
+
+      subtitulo.textContent = `Logado como: ${usuario.nome}`;
+
+      if (ids.length === 0) {
+        lista.innerHTML = `
+          <div class="favoritos-vazio">
+            <p>Você ainda não tem favoritos. ❤️</p>
+            <a href="index.html" class="btn-login-link">Ver Produtos</a>
+          </div>`;
+        return;
+      }
+
+      const favoritos = data.produtos.filter(p => ids.includes(p.id));
+
+      lista.innerHTML = "";
+      lista.classList.add("product-list-grid");
+
+      favoritos.forEach(produto => {
+        const card = criarCardFavorito(produto, ids, usuario, chave);
+        lista.appendChild(card);
+      });
+    }
+
+    function criarCardFavorito(produto, ids, usuario, chave) {
+      const card = document.createElement("div");
+      card.setAttribute("data-id", produto.id);
+      card.classList.add("card", "favoritado");
+
+      card.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}">
+        <p class="card-title">${produto.nome}</p>
+        <p class="card-price">${formatPrice(produto.preco)}</p>
+        <p class="card-category">${produto.categoria}</p>
+        <button class="btn-details" onclick="window.location.href='detalhes.html?id=${produto.id}'">Ver detalhes</button>
+        <button class="btn-favorito ativo" data-id="${produto.id}">❤️ Remover</button>
+      `;
+
+      const btnRemover = card.querySelector(".btn-favorito");
+      btnRemover.addEventListener("click", () => {
+        let atualizados = JSON.parse(localStorage.getItem(chave) || "[]");
+        atualizados = atualizados.filter(id => id !== produto.id);
+        localStorage.setItem(chave, JSON.stringify(atualizados));
+        card.remove();
+
+        const restantes = document.querySelectorAll(".card");
+        if (restantes.length === 0) {
+          renderizarFavoritos();
+        }
+      });
+
+      return card;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Administrador",
+      "login": "admin",
+      "senha": "123",
+      "email": "admin@miniecommerce.com"
+    },
+    {
+      "id": 2,
+      "nome": "Usuário Padrão",
+      "login": "user",
+      "senha": "123",
+      "email": "user@miniecommerce.com"
+    }
+  ]
+}

@@ -1,0 +1,353 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  padding: 0 0 40px;
+}
+
+/* ============================================================
+   Header e Login
+   ============================================================ */
+
+.site-header {
+  background: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.site-header h1 {
+  font-size: 22px;
+  color: white;
+  margin: 0;
+}
+
+.login-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.login-greeting {
+  color: white;
+}
+
+.login-separator {
+  color: rgba(255,255,255,0.5);
+}
+
+.login-link {
+  color: white;
+  text-decoration: none;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.login-link:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* ============================================================
+   Navegação
+   ============================================================ */
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+  padding: 10px 28px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-links a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  border-bottom-color: #007bff;
+}
+
+/* ============================================================
+   Controles de filtro
+   ============================================================ */
+
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 24px 28px 20px;
+  flex-wrap: wrap;
+}
+
+.controls input,
+.controls select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.controls button {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.controls button:hover {
+  background: #0056b3;
+}
+
+/* ============================================================
+   Grid de produtos
+   ============================================================ */
+
+#product-list,
+.product-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 0 28px;
+  margin-bottom: 30px;
+}
+
+/* ============================================================
+   Cards
+   ============================================================ */
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.card.sem-estoque-card {
+  background: #f9f9f9;
+  opacity: 0.85;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.card-price {
+  color: #007bff;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.card-category {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.card button {
+  margin: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-details {
+  background: #28a745;
+  color: white;
+}
+
+.btn-details:hover {
+  background: #1e7e34;
+}
+
+/* Badge fora de estoque */
+.badge-sem-estoque {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #dc3545;
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* ============================================================
+   Botão Favoritar
+   ============================================================ */
+
+.btn-favorito {
+  background: #f0f0f0;
+  color: #555;
+  border: 1px solid #ddd !important;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-favorito:hover {
+  background: #ffe4e4;
+  color: #c0392b;
+}
+
+.btn-favorito.ativo {
+  background: #ffe4e4;
+  color: #c0392b;
+  border-color: #f5c6cb !important;
+  font-weight: bold;
+}
+
+/* Card favoritado — borda e fundo destacado */
+.card.favoritado {
+  border: 2px solid #e74c3c !important;
+  box-shadow: 0 0 12px rgba(231, 76, 60, 0.25) !important;
+  background: #fff8f8 !important;
+}
+
+/* ============================================================
+   Página Detalhes
+   ============================================================ */
+
+#product-details {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#product-details h2 { margin-bottom: 10px; }
+#product-details p { margin-bottom: 8px; color: #444; }
+
+.em-estoque { color: green; font-weight: bold; }
+.sem-estoque { color: red; font-weight: bold; }
+
+.detalhes-acoes {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.detalhes-acoes a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.detalhes-acoes a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Página Favoritos
+   ============================================================ */
+
+.favoritos-header {
+  padding: 24px 28px 8px;
+  text-align: center;
+}
+
+.favoritos-header h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.favoritos-subtitulo {
+  font-size: 13px;
+  color: #888;
+}
+
+.favoritos-vazio {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+}
+
+.favoritos-vazio p {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.btn-login-link {
+  display: inline-block;
+  padding: 10px 24px;
+  background: #007bff;
+  color: white;
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn-login-link:hover {
+  background: #0056b3;
+}
+
+/* ============================================================
+   Toast de notificação
+   ============================================================ */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 999;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  animation: fadeIn 0.3s ease;
+}
+
+.toast-sucesso { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.toast-aviso   { background: #fff3cd; color: #856404; border: 1px solid #ffc107; }
+.toast-info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}

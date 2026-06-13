@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Mini Ecommerce</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-logo h1 {
+      font-size: 22px;
+      color: #007bff;
+    }
+
+    .login-logo p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #444;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 7px;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 11px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-login:hover { background: #0056b3; }
+
+    .erro-msg {
+      display: none;
+      background: #fde8e8;
+      color: #c0392b;
+      border: 1px solid #f5c6cb;
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .dica {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+      text-align: center;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-logo">
+    <h1>🛒 Mini Ecommerce</h1>
+    <p>Faça login para continuar</p>
+  </div>
+
+  <div class="form-group">
+    <label for="login">Usuário</label>
+    <input type="text" id="login" placeholder="Digite seu login" autocomplete="username">
+  </div>
+
+  <div class="form-group">
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" placeholder="Digite sua senha" autocomplete="current-password">
+  </div>
+
+  <button class="btn-login" id="btnLogin">Entrar</button>
+
+  <div class="erro-msg" id="erro-msg">
+    ❌ Login ou senha inválidos. Tente novamente.
+  </div>
+
+  <div class="dica">
+    Usuários de teste: <strong>admin / 123</strong> ou <strong>user / 123</strong>
+  </div>
+</div>
+
+<script>
+  // Carrega usuários do JSON Server
+  let usuariosBD = [];
+
+  async function carregarUsuarios() {
+    try {
+      const res = await fetch("/usuarios");
+      if (res.ok) usuariosBD = await res.json();
+    } catch (e) {
+      // JSON Server offline: usa usuários padrão como fallback
+      usuariosBD = [
+        { id: 1, nome: "Administrador", login: "admin", senha: "123", email: "admin@miniecommerce.com" },
+        { id: 2, nome: "Usuário Padrão", login: "user", senha: "123", email: "user@miniecommerce.com" }
+      ];
+    }
+  }
+
+  function loginUser(login, senha) {
+    const usuario = usuariosBD.find(u => u.login === login && u.senha === senha);
+    if (!usuario) return false;
+
+    const usuarioCorrente = {
+      id: usuario.id,
+      nome: usuario.nome,
+      login: usuario.login,
+      senha: usuario.senha,
+      email: usuario.email
+    };
+
+    sessionStorage.setItem("usuarioCorrente", JSON.stringify(usuarioCorrente));
+    window.location.href = "/index.html";
+    return true;
+  }
+
+  async function tentarLogin() {
+    const loginVal = document.getElementById("login").value.trim();
+    const senhaVal = document.getElementById("senha").value;
+    const erroMsg = document.getElementById("erro-msg");
+
+    if (!loginVal || !senhaVal) {
+      erroMsg.textContent = "⚠️ Preencha o login e a senha.";
+      erroMsg.style.display = "block";
+      return;
+    }
+
+    const ok = loginUser(loginVal, senhaVal);
+    if (!ok) {
+      erroMsg.textContent = "❌ Login ou senha inválidos. Tente novamente.";
+      erroMsg.style.display = "block";
+    }
+  }
+
+  document.getElementById("btnLogin").addEventListener("click", tentarLogin);
+
+  document.getElementById("senha").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") tentarLogin();
+  });
+
+  // Se já está logado, vai direto para a home
+  if (sessionStorage.getItem("usuarioCorrente")) {
+    window.location.href = "/index.html";
+  }
+
+  carregarUsuarios();
+</script>
+
+</body>
+</html>
